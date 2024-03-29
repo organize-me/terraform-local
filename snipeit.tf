@@ -1,13 +1,15 @@
 resource "mysql_database" "snipeit" {
   default_character_set = "utf8mb3"
   default_collation     = "utf8mb3_general_ci"
-  name = "snipeit"
+  name                  = "snipeit"
+  depends_on            = [docker_container.mysql]
 }
 
 resource "mysql_user" "snipeit" {
   user               = "${data.aws_ssm_parameter.snipeit_db_username.value}"
-  host               = "172.22.0.6"
+  host               = "organize-me-snipeit.organize_me_network"
   plaintext_password = "${data.aws_ssm_parameter.snipeit_db_password.value}"
+  depends_on         = [docker_container.mysql]
 }
 
 resource "mysql_grant" "snipeit" {
@@ -51,9 +53,8 @@ resource "docker_container" "snipeit" {
     "APP_LOCALE=en"
   ]
   networks_advanced {
-    name    = data.docker_network.organize_me_network.name
+    name    = docker_network.organize_me_network.name
     aliases = ["snipeit"]
-    ipv4_address = "172.22.0.6"
   }
   ports {
     internal = 80

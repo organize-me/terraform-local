@@ -80,3 +80,31 @@ data "aws_ssm_parameter" "pihole_webpassword" {
   name = "organize-me.pihole_webpassword"
 }
 
+# --== Home-Portal ==-- #
+data "aws_ssm_parameter" "home_portal_db_username" {
+  name = "organize-me.home_portal_db_username"
+}
+data "aws_ssm_parameter" "home_portal_db_password" {
+  name = "organize-me.home_portal_db_password"
+}
+data "aws_ssm_parameter" "home_portal_admin_query" {
+  name = "organize-me.home_portal_admin_query"
+}
+data "aws_ssm_parameter" "home_portal_issuer_url" {
+  name = "organize-me.home_portal_issuer_url"
+}
+data "aws_ssm_parameter" "home_portal_auth_url" {
+  name = "organize-me.home_portal_auth_url"
+}
+data "aws_ssm_parameter" "home_portal_token_url" {
+  name = "organize-me.home_portal_token_url"
+}
+data "aws_ssm_parameter" "home_portal_client_id" {
+  name = "organize-me.home_portal_client_id"
+}
+data "aws_ssm_parameter" "home_portal_client_secret" {
+  name = "organize-me.home_portal_client_secret"
+}
+data "aws_ssm_parameter" "home_portal_client_scope" {
+  name = "organize-me.home_portal_client_scope"
+}

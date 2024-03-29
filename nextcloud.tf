@@ -2,12 +2,14 @@ resource "mysql_database" "nextcloud" {
   default_character_set = "utf8mb3"
   default_collation     = "utf8mb3_general_ci"
   name                  = "nextcloud"
+  depends_on            = [docker_container.mysql]
 }
 
 resource "mysql_user" "nextcloud" {
   user               = "${data.aws_ssm_parameter.nextcloud_db_username.value}"
-  host               = "172.22.0.5"
+  host               = "organize-me-nextcloud.organize_me_network"
   plaintext_password = "${data.aws_ssm_parameter.nextcloud_db_password.value}"
+  depends_on         = [docker_container.mysql]
 }
 
 resource "mysql_grant" "nextcloud" {
@@ -52,9 +54,8 @@ resource "docker_container" "nextcloud" {
     host_path      = "${var.install_root}/nextcloud/var/www/html"
   }
   networks_advanced {
-    name    = data.docker_network.organize_me_network.name
+    name    = docker_network.organize_me_network.name
     aliases = ["nextcloud"]
-    ipv4_address = "172.22.0.5"
   }
   ports {
     internal = 80
